@@ -3,171 +3,175 @@
 # 🛡️ Net Sentinel
 ### Smart Network Monitoring System
 
-**Real-time device discovery, risk analysis, and threat visibility for local networks.**
+**A college engineering project focused on monitoring and securing Local Area Networks.**
 
-![Net Sentinel Banner](https://via.placeholder.com/1200x300/0d1117/58a6ff?text=NET+SENTINEL+%7C+Smart+Network+Monitoring+System)
+![Status](https://img.shields.io/badge/Status-Under%20Development-orange?style=for-the-badge&logo=hashnode&logoColor=white)
 
-<img src="https://via.placeholder.com/150/0d1117/58a6ff?text=LOGO" alt="Net Sentinel Logo" width="120"/>
+![Net Sentinel Banner](https://via.placeholder.com/1200x300/0d1117/58a6ff?text=NET+SENTINEL+%7C+Work+in+Progress)
 
 <br/>
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![C++](https://img.shields.io/badge/C%2B%2B-Modules-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![HTML5](https://img.shields.io/badge/HTML5-Frontend-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-Styling-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-Interactivity-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Scapy](https://img.shields.io/badge/Scapy-Packet%20Engine-8A2BE2?style=for-the-badge&logo=wireshark&logoColor=white)](https://scapy.net/)
-[![Nmap](https://img.shields.io/badge/Nmap-Network%20Scanning-D22128?style=for-the-badge&logo=nmap&logoColor=white)](https://nmap.org/)
-
-<br/>
-
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/net-sentinel?style=for-the-badge&logo=github&color=gold)](https://github.com/yourusername/net-sentinel/stargazers)
-[![License](https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](#)
-[![Last Commit](https://img.shields.io/github/last-commit/yourusername/net-sentinel?style=for-the-badge&logo=git)](https://github.com/yourusername/net-sentinel/commits/main)
-[![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](#)
-[![Responsive](https://img.shields.io/badge/UI-Responsive-ff69b4?style=for-the-badge&logo=css3)](#)
+[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/)
 
 </div>
 
 <br/>
+
+> ⚠️ **This repository is a work in progress.** Features, structure, and setup steps are actively changing as development continues. This README will be updated regularly to reflect the project's real status.
 
 ---
 
 ## 📌 Table of Contents
 
 - [About the Project](#-about-the-project)
-- [Key Features](#-key-features)
-- [Screenshots](#-project-screenshots)
-- [Architecture](#-project-architecture)
-- [Workflow](#-project-workflow)
-- [Folder Structure](#-folder-structure)
+- [Current Development Status](#-current-development-status)
+- [Planned Features](#-planned-features)
+- [Development Roadmap](#-development-roadmap)
 - [Technology Stack](#-technology-stack)
-- [Installation Guide](#-installation-guide)
-- [Usage](#-usage)
-- [Applications](#-applications)
-- [Roadmap](#-roadmap)
-- [Future Scope](#-future-scope)
+- [Planned Architecture](#-planned-architecture)
+- [Repository Structure](#-repository-structure)
+- [Installation](#-installation)
 - [Contributors](#-contributors)
+- [Future Scope](#-future-scope)
 - [License](#-license)
-- [Contact](#-contact)
 
 ---
 
 ## 🧠 About the Project
 
-**Net Sentinel** is a **Smart Network Monitoring System** built to give individuals, students, and small organizations enterprise-grade visibility into their **Local Area Network (LAN)**.
+**Net Sentinel** is a **Smart Network Monitoring System** being developed as a cybersecurity engineering college project. The goal of the project is to build a tool that helps monitor and secure **Local Area Networks (LANs)** by giving users visibility into the devices and activity on their network.
 
-Modern home and office networks host a growing number of connected devices — laptops, phones, IoT gadgets, printers, and guest devices — often with little to no oversight. Net Sentinel closes that visibility gap by continuously watching the network and translating raw packet and scan data into clear, actionable security insight.
+The project aims to:
 
-The system automatically:
+- 🔍 Discover devices connected to the network
+- 📡 Monitor basic network activity
+- ❓ Detect unknown or previously unseen devices
+- 🗃️ Store scan history for later review
+- 🚨 Generate security alerts for suspicious activity
+- 📊 Provide a simple web dashboard to visualize this information
 
-- 🔍 **Discovers** every device connected to the network in real time
-- ❓ **Identifies unknown or unauthorized hosts** the moment they appear
-- ⚠️ **Calculates a security risk score** for each device based on behavior and fingerprinting
-- 🚨 **Generates alerts** for suspicious activity or new device connections
-- 🗂️ **Maintains a full scan history** for auditing and trend analysis
-- 📊 **Displays everything** through a clean, interactive, real-time dashboard
-
-Net Sentinel is designed to be lightweight, extensible, and easy to run locally — making it equally useful as a **learning platform for cybersecurity students** and as a **practical monitoring tool for small networks**.
+**This project is currently under active development, and new features are being added gradually.** It is being built and maintained by a small team of engineering students as part of our coursework, with the intention of learning practical cybersecurity and full-stack development skills along the way.
 
 ---
 
-## ✨ Key Features
+## 📊 Current Development Status
 
-### ✅ Current Features
+| Milestone | Status |
+|---|:---:|
+| Project Planning | ✔️ Done |
+| Repository Setup | ✔️ Done |
+| Technology Selection | ✔️ Done |
+| Backend Development | 🔄 In Progress |
+| Frontend Development | 🔄 In Progress |
+| Database Integration | 🔄 In Progress |
+| Alert System | 🔄 In Progress |
+| Testing | ⏳ Not Started |
+| Documentation | 🔄 In Progress |
+| Final Deployment | ⏳ Not Started |
 
-| Feature | Description | Status |
-|---|---|:---:|
-| 🖥️ Device Discovery | Automatically scans and lists all devices on the LAN | ✅ |
-| 🕵️ Unknown Host Detection | Flags devices not previously seen on the network | ✅ |
-| 📈 Risk Scoring Engine | Assigns a calculated risk level to each detected device | ✅ |
-| 🚨 Real-Time Alerts | Notifies users of suspicious or new device activity | ✅ |
-| 🗃️ Scan History | Stores historical scan data in a local database | ✅ |
-| 📊 Interactive Dashboard | Visual, web-based interface for live monitoring | ✅ |
-| ⚡ FastAPI Backend | High-performance REST API powering the system | ✅ |
-| 📡 Packet-Level Analysis | Uses Scapy for low-level network packet inspection | ✅ |
-| 🌐 Nmap Integration | Deep port and service scanning of discovered hosts | ✅ |
-
-### 🚧 Future Features
-
-| Feature | Description | Status |
-|---|---|:---:|
-| 🤖 AI-Based Threat Detection | Machine learning models for anomaly detection | 🔜 |
-| 📧 Email Alerting | Automatic email notifications for critical events | 🔜 |
-| 📄 PDF Report Generation | Exportable, shareable security reports | 🔜 |
-| 🗺️ Network Topology Mapping | Visual graph of network layout and connections | 🔜 |
-| 🐧 Linux Support | Full cross-platform compatibility | 🔜 |
-| 🏷️ Vendor Fingerprinting | MAC-based device manufacturer identification | 🔜 |
+*Legend: ✔️ Done · 🔄 In Progress · ⏳ Not Started*
 
 ---
 
-## 🖼️ Project Screenshots
+## ✅ Planned Features
 
-<details>
-<summary><strong>📊 Dashboard</strong></summary>
+> The list below reflects what the project intends to build. Items marked **In Progress** are being actively worked on. Everything else is planned for later stages and **is not yet implemented**.
+
+- [ ] 🔄 Device Discovery *(In Progress)*
+- [ ] 🔄 Network Scanner *(In Progress)*
+- [ ] 🔄 Web Dashboard *(In Progress)*
+- [ ] 📋 Risk Analysis *(Planned)*
+- [ ] 📋 Alert System *(Planned)*
+- [ ] 📋 SQLite Database Integration *(Planned)*
+- [ ] 📋 OS Detection *(Planned)*
+- [ ] 📋 Open Port Detection *(Planned)*
+- [ ] 📋 Traffic Monitoring *(Planned)*
+- [ ] 📋 Network Topology Mapping *(Planned)*
+- [ ] 📋 PDF Reports *(Planned)*
+- [ ] 📋 Email Alerts *(Planned)*
+- [ ] 📋 AI-Based Threat Detection *(Planned)*
+
+---
+
+## 🗺️ Development Roadmap
+
+<details open>
+<summary><strong>Phase 1 — Foundation ✔️</strong></summary>
 <br/>
 
-![Dashboard Screenshot](https://via.placeholder.com/900x500/0d1117/58a6ff?text=Dashboard+Preview)
+- Project planning and scope definition
+- Technology stack selection
+- Repository setup and initial structure
+
+</details>
+
+<details open>
+<summary><strong>Phase 2 — Core Backend 🔄</strong></summary>
+<br/>
+
+- Backend development with FastAPI
+- Database design (SQLite)
+- Basic network scanner implementation
 
 </details>
 
 <details>
-<summary><strong>💻 Device List</strong></summary>
+<summary><strong>Phase 3 — Dashboard & Alerts ⏳</strong></summary>
 <br/>
 
-![Device List Screenshot](https://via.placeholder.com/900x500/0d1117/58a6ff?text=Device+List+Preview)
+- Dashboard development (frontend)
+- Alert engine implementation
+- Initial testing and bug fixing
 
 </details>
 
 <details>
-<summary><strong>🚨 Alerts Panel</strong></summary>
+<summary><strong>Phase 4 — Advanced Features ⏳</strong></summary>
 <br/>
 
-![Alerts Screenshot](https://via.placeholder.com/900x500/0d1117/58a6ff?text=Alerts+Panel+Preview)
-
-</details>
-
-<details>
-<summary><strong>🗂️ Scan History</strong></summary>
-<br/>
-
-![Scan History Screenshot](https://via.placeholder.com/900x500/0d1117/58a6ff?text=Scan+History+Preview)
-
-</details>
-
-<details>
-<summary><strong>📑 Reports</strong></summary>
-<br/>
-
-![Reports Screenshot](https://via.placeholder.com/900x500/0d1117/58a6ff?text=Reports+Preview)
-
-</details>
-
-<details>
-<summary><strong>🏗️ Architecture View</strong></summary>
-<br/>
-
-![Architecture Screenshot](https://via.placeholder.com/900x500/0d1117/58a6ff?text=Architecture+Preview)
+- Advanced scanning features (OS/port/traffic)
+- AI-based threat detection
+- PDF/report generation
+- Deployment preparation
 
 </details>
 
 ---
 
-## 🏗️ Project Architecture
+## 🧰 Technology Stack
+
+| Category | Technologies |
+|---|---|
+| **Programming Languages** | ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white) ![C++](https://img.shields.io/badge/-C%2B%2B-00599C?style=flat-square&logo=cplusplus&logoColor=white) |
+| **Frontend** | ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
+| **Backend** | ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) |
+| **Database** | ![SQLite](https://img.shields.io/badge/-SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white) |
+| **Networking** | ![Scapy](https://img.shields.io/badge/-Scapy-8A2BE2?style=flat-square) ![Nmap](https://img.shields.io/badge/-Nmap-D22128?style=flat-square&logo=nmap&logoColor=white) |
+| **Development Tools** | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white) ![Git](https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat-square&logo=github&logoColor=white) |
+
+---
+
+## 🏗️ Planned Architecture
+
+> The diagram below represents the **planned system design**. It is a target architecture and does not yet reflect a fully implemented system.
 
 ```mermaid
 graph TD
     A[👤 User] --> B[📊 Dashboard]
     B --> C[⚡ FastAPI Backend]
-    C --> D[🔍 Scanner Engine]
+    C --> D[🔍 Network Scanner]
     D --> E[📡 Scapy]
     D --> F[🌐 Nmap]
     C --> G[🗃️ SQLite Database]
     C --> H[🚨 Alert Engine]
     H --> B
-    G --> B
 
     style A fill:#58a6ff,stroke:#0d1117,color:#0d1117
     style B fill:#238636,stroke:#0d1117,color:#fff
@@ -181,56 +185,31 @@ graph TD
 
 ---
 
-## 🔄 Project Workflow
+## 📁 Repository Structure
 
-```mermaid
-flowchart TD
-    A([🟢 Start Scan]) --> B[🔍 Discover Devices]
-    B --> C[📥 Collect Device Information]
-    C --> D[⚠️ Perform Risk Analysis]
-    D --> E[🗃️ Store Results in Database]
-    E --> F{🚨 Threat Detected?}
-    F -->|Yes| G[🔔 Generate Alert]
-    F -->|No| H[📊 Update Dashboard]
-    G --> H
-    H --> I[📑 Generate Reports]
-    I --> J([🔴 End])
-
-    style A fill:#238636,stroke:#0d1117,color:#fff
-    style J fill:#da3633,stroke:#0d1117,color:#fff
-    style F fill:#d29922,stroke:#0d1117,color:#0d1117
-```
-
----
-
-## 📁 Folder Structure
+> Structure is evolving as development progresses. Some folders below are placeholders for upcoming work.
 
 ```
 net-sentinel/
 │
 ├── 📂 backend/
 │   ├── 📂 app/
-│   │   ├── 📂 api/                 # FastAPI route definitions
-│   │   ├── 📂 core/                # Core configuration & settings
-│   │   ├── 📂 models/              # Database models (SQLAlchemy/SQLite)
-│   │   ├── 📂 scanner/             # Scapy & Nmap scanning logic
-│   │   ├── 📂 services/            # Risk scoring & alert logic
+│   │   ├── 📂 api/                 # FastAPI route definitions (in progress)
+│   │   ├── 📂 core/                # Configuration & settings
+│   │   ├── 📂 models/              # Database models (planned)
+│   │   ├── 📂 scanner/             # Scapy & Nmap scanning logic (in progress)
 │   │   └── 📄 main.py              # FastAPI application entry point
-│   ├── 📂 database/
-│   │   └── 📄 net_sentinel.db      # SQLite database file
+│   ├── 📂 database/                # SQLite database files (planned)
 │   └── 📄 requirements.txt         # Python dependencies
 │
 ├── 📂 frontend/
-│   ├── 📂 css/                     # Stylesheets
-│   ├── 📂 js/                      # Dashboard interactivity
-│   ├── 📂 assets/                  # Icons, images, logos
-│   └── 📄 index.html               # Dashboard entry point
+│   ├── 📂 css/                     # Stylesheets (in progress)
+│   ├── 📂 js/                      # Dashboard interactivity (in progress)
+│   └── 📄 index.html               # Dashboard entry point (in progress)
 │
-├── 📂 reports/                     # Generated scan/security reports
-├── 📂 docs/                        # Documentation & diagrams
-├── 📂 tests/                       # Unit & integration tests
+├── 📂 docs/                        # Project documentation & notes
+├── 📂 tests/                       # Test cases (not started)
 │
-├── 📄 .env.example                 # Environment variable template
 ├── 📄 .gitignore
 ├── 📄 LICENSE
 └── 📄 README.md
@@ -238,39 +217,23 @@ net-sentinel/
 
 ---
 
-## 🧰 Technology Stack
+## ⚙️ Installation
 
-| Category | Technologies |
-|---|---|
-| **Programming Languages** | ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white) ![C++](https://img.shields.io/badge/-C%2B%2B-00599C?style=flat-square&logo=cplusplus&logoColor=white) |
-| **Frontend** | ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
-| **Backend** | ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) |
-| **Database** | ![SQLite](https://img.shields.io/badge/-SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white) |
-| **Networking & Scanning** | ![Scapy](https://img.shields.io/badge/-Scapy-8A2BE2?style=flat-square) ![Nmap](https://img.shields.io/badge/-Nmap-D22128?style=flat-square&logo=nmap&logoColor=white) |
-| **Version Control** | ![Git](https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat-square&logo=github&logoColor=white) |
-| **IDE** | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white) |
-| **Operating System** | ![Windows](https://img.shields.io/badge/-Windows-0078D6?style=flat-square&logo=windows&logoColor=white) (Linux support planned 🔜) |
-
----
-
-## ⚙️ Installation Guide
+> ⚠️ **Note:** Since the project is under active development, setup steps may change frequently. Please check back for updates before relying on these instructions.
 
 ### Prerequisites
 
 - Python 3.10 or higher
-- Nmap installed and added to system PATH
-- Administrator/root privileges (required for packet-level scanning)
+- Git
 
-### Step 1 — Clone the Repository
+### Steps (current, subject to change)
 
 ```bash
+# 1. Clone the repository
 git clone https://github.com/yourusername/net-sentinel.git
 cd net-sentinel
-```
 
-### Step 2 — Create a Virtual Environment
-
-```bash
+# 2. Create a virtual environment
 python -m venv venv
 
 # Activate on Windows
@@ -278,93 +241,16 @@ venv\Scripts\activate
 
 # Activate on Linux/macOS
 source venv/bin/activate
-```
 
-### Step 3 — Install Requirements
-
-```bash
+# 3. Install dependencies
 pip install -r backend/requirements.txt
-```
 
-### Step 4 — Run the FastAPI Server
-
-```bash
+# 4. Run the development server
 cd backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn app.main:app --reload
 ```
 
-### Step 5 — Open the Dashboard
-
-Open your browser and navigate to:
-
-```
-http://localhost:8000
-```
-
----
-
-## 🚀 Usage
-
-| Action | How To |
-|---|---|
-| **Start a Scan** | Click **"Start Scan"** on the dashboard to trigger device discovery across the LAN |
-| **View Devices** | Navigate to the **Devices** tab to see all discovered hosts with IP, MAC, and vendor info |
-| **Monitor Alerts** | Open the **Alerts** panel to review flagged or suspicious activity in real time |
-| **Check History** | Visit the **Scan History** tab to review past scans and track network changes over time |
-| **Generate Reports** | Use the **Reports** section to compile and export scan/security summaries |
-
----
-
-## 🏢 Applications
-
-- 🏠 **Home Networks** — Monitor personal devices and detect unauthorized access
-- 🏢 **Office Networks** — Maintain visibility over employee and guest devices
-- 🎓 **Educational Labs** — Hands-on platform for teaching network security concepts
-- 🏪 **Small Businesses** — Affordable network monitoring without enterprise tooling
-- 🛡️ **Cybersecurity Learning** — Practical playground for students and self-learners
-
----
-
-## 🗺️ Roadmap
-
-### ✅ Completed
-- [x] Core device discovery engine
-- [x] FastAPI backend architecture
-- [x] SQLite database integration
-- [x] Interactive web dashboard
-- [x] Basic risk scoring system
-- [x] Real-time alert generation
-
-### 🔄 In Progress
-- [ ] Scan history analytics view
-- [ ] Improved risk-scoring algorithm
-- [ ] Report export (CSV)
-- [ ] UI/UX refinement
-
-### 🔮 Future
-- [ ] AI-based threat detection
-- [ ] Email alert notifications
-- [ ] PDF report generation
-- [ ] Network topology visualization
-- [ ] Linux platform support
-- [ ] Mobile-responsive dashboard enhancements
-
----
-
-## 🔮 Future Scope
-
-| Feature | Description |
-|---|---|
-| 🤖 **AI Threat Detection** | Apply machine learning to identify abnormal device behavior and emerging threats. |
-| 📧 **Email Alerts** | Send automated email notifications when high-risk events are detected. |
-| 📄 **PDF Reports** | Generate polished, exportable PDF summaries of scan and security data. |
-| ⏱️ **Real-Time Monitoring** | Continuously track network activity without requiring manual scans. |
-| 🗺️ **Network Topology** | Visualize how devices connect and communicate across the network. |
-| 🖥️ **Operating System Detection** | Identify the OS running on each connected device. |
-| 🔓 **Open Port Detection** | Highlight potentially risky open ports on scanned hosts. |
-| 📶 **Traffic Monitoring** | Analyze bandwidth usage and traffic patterns per device. |
-| 🏷️ **Vendor Detection** | Resolve device manufacturers from MAC address prefixes. |
-| 🐧 **Linux Support** | Extend full compatibility to Linux-based systems. |
+The application is not yet feature-complete, and some modules referenced above are still being built.
 
 ---
 
@@ -372,16 +258,33 @@ http://localhost:8000
 
 <div align="center">
 
-Thanks to everyone who has contributed to making **Net Sentinel** better.
-
-<a href="https://github.com/yourusername/net-sentinel/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=yourusername/net-sentinel" alt="Contributors"/>
-</a>
-
-Want to contribute? Pull requests are welcome!
-Please open an issue first to discuss proposed changes.
+| Contributor | Role | GitHub |
+|---|---|---|
+| Your Name | Team Lead / Backend | [@yourusername](https://github.com/yourusername) |
+| Contributor 2 | Frontend Developer | [@contributor2](https://github.com/contributor2) |
+| Contributor 3 | Network Scanning | [@contributor3](https://github.com/contributor3) |
+| Contributor 4 | Database & Docs | [@contributor4](https://github.com/contributor4) |
+| Contributor 5 | Testing & QA | [@contributor5](https://github.com/contributor5) |
 
 </div>
+
+This project is developed and maintained as part of an academic cybersecurity engineering course. Contributions, suggestions, and feedback from peers and mentors are welcome.
+
+---
+
+## 🔮 Future Scope
+
+Once the core system is stable, we plan to explore the following enhancements:
+
+- **AI-Based Threat Detection** — using basic machine learning to flag abnormal device behavior.
+- **Email Alerts** — notifying users automatically when suspicious activity is detected.
+- **PDF Reports** — exporting scan and alert summaries for record-keeping.
+- **Network Topology Mapping** — visualizing how devices are connected.
+- **OS and Open Port Detection** — deeper fingerprinting of discovered devices.
+- **Traffic Monitoring** — tracking bandwidth usage per device.
+- **Linux Support** — extending compatibility beyond Windows.
+
+These are long-term goals and will only be pursued once the core monitoring functionality is complete and stable.
 
 ---
 
@@ -389,22 +292,10 @@ Please open an issue first to discuss proposed changes.
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
-```
-MIT License © 2025 Net Sentinel Contributors
-Permission is granted, free of charge, to use, copy, modify, and distribute this software.
-```
-
 ---
-
-## 📬 Contact
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/GitHub-yourusername-181717?style=for-the-badge&logo=github)](https://github.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Your%20Name-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
-[![Email](https://img.shields.io/badge/Email-your.email%40example.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your.email@example.com)
+🚧 **Thanks for checking out Net Sentinel.** Since this project is still early in development, feedback and suggestions are genuinely appreciated. 🚧
 
-<br/>
-
-⭐ **If you find this project useful, consider giving it a star!** ⭐
-
+</div>
