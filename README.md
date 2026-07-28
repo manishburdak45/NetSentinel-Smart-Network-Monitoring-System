@@ -185,35 +185,6 @@ graph TD
 
 ---
 
-## 📁 Repository Structure
-
-> Structure is evolving as development progresses. Some folders below are placeholders for upcoming work.
-
-```
-net-sentinel/
-│
-├── 📂 backend/
-│   ├── 📂 app/
-│   │   ├── 📂 api/                 # FastAPI route definitions (in progress)
-│   │   ├── 📂 core/                # Configuration & settings
-│   │   ├── 📂 models/              # Database models (planned)
-│   │   ├── 📂 scanner/             # Scapy & Nmap scanning logic (in progress)
-│   │   └── 📄 main.py              # FastAPI application entry point
-│   ├── 📂 database/                # SQLite database files (planned)
-│   └── 📄 requirements.txt         # Python dependencies
-│
-├── 📂 frontend/
-│   ├── 📂 css/                     # Stylesheets (in progress)
-│   ├── 📂 js/                      # Dashboard interactivity (in progress)
-│   └── 📄 index.html               # Dashboard entry point (in progress)
-│
-├── 📂 docs/                        # Project documentation & notes
-├── 📂 tests/                       # Test cases (not started)
-│
-├── 📄 .gitignore
-├── 📄 LICENSE
-└── 📄 README.md
-```
 
 ---
 
@@ -230,7 +201,7 @@ net-sentinel/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/net-sentinel.git
+git clone https://github.com/manishburdak45/NetSentinel-Smart-Network-Monitoring-System
 cd net-sentinel
 
 # 2. Create a virtual environment
@@ -254,17 +225,6 @@ The application is not yet feature-complete, and some modules referenced above a
 
 ---
 
-## 👥 Contributors
-
-<div align="center">
-
-| Contributor | Role | GitHub |
-|---|---|---|
-| Your Name | Team Lead / Backend | [@yourusername](https://github.com/yourusername) |
-| Contributor 2 | Frontend Developer | [@contributor2](https://github.com/contributor2) |
-| Contributor 3 | Network Scanning | [@contributor3](https://github.com/contributor3) |
-| Contributor 4 | Database & Docs | [@contributor4](https://github.com/contributor4) |
-| Contributor 5 | Testing & QA | [@contributor5](https://github.com/contributor5) |
 
 </div>
 
