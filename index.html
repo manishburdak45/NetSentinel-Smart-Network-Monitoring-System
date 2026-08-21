@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetSentinel-XDR</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="app-header-title">
+    <h1>NetSentinel-XDR</h1>
+    <p class="app-subtitle">Linux Network Security Monitoring</p>
+  </div>
+  <div class="header-status" aria-live="polite">
+    <span id="header-monitoring-badge" class="status-badge status-unknown">Monitoring: Unknown</span>
+    <span id="header-interface">Interface: Unknown</span>
+  </div>
+</header>
+
+<main>
+
+  <section class="summary-section" aria-label="Summary">
+    <div class="summary-cards">
+      <div class="card">
+        <h2>Devices</h2>
+        <p id="summary-devices" class="card-value">0</p>
+      </div>
+      <div class="card">
+        <h2>Alerts</h2>
+        <p id="summary-alerts" class="card-value">0</p>
+      </div>
+      <div class="card">
+        <h2>Scan History</h2>
+        <p id="summary-history" class="card-value">0</p>
+      </div>
+      <div class="card">
+        <h2>Scan In Progress</h2>
+        <p id="summary-scan-progress" class="card-value">No</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="monitoring-section" aria-labelledby="monitoring-heading">
+    <h2 id="monitoring-heading">Security Monitoring</h2>
+    <p id="monitoring-status-text" aria-live="polite">Status: Unknown</p>
+    <div class="monitoring-controls">
+      <button id="btn-start-monitoring" type="button" class="btn btn-primary">Start Monitoring</button>
+      <button id="btn-stop-monitoring" type="button" class="btn btn-danger">Stop Monitoring</button>
+    </div>
+    <p id="monitoring-error" class="error-text" role="alert" hidden></p>
+  </section>
+
+  <section class="alerts-section" aria-labelledby="alerts-heading">
+    <h2 id="alerts-heading">Security Alerts</h2>
+    <p id="alerts-error" class="error-text" role="alert" hidden></p>
+    <ul id="alerts-list" class="alerts-list" aria-live="polite"></ul>
+    <p id="alerts-empty" class="empty-text" hidden>No alerts detected.</p>
+  </section>
+
+  <section class="scan-section" aria-labelledby="scan-heading">
+    <h2 id="scan-heading">Network Scan</h2>
+    <button id="btn-scan-network" type="button" class="btn btn-primary">Scan Network</button>
+    <p id="scan-status-text" role="status" aria-live="polite"></p>
+    <p id="scan-error" class="error-text" role="alert" hidden></p>
+  </section>
+
+  <section class="devices-section" aria-labelledby="devices-heading">
+    <h2 id="devices-heading">Network Devices</h2>
+    <p id="devices-error" class="error-text" role="alert" hidden></p>
+    <div class="table-wrapper">
+      <table id="devices-table">
+        <thead>
+          <tr>
+            <th scope="col">IP</th>
+            <th scope="col">MAC</th>
+            <th scope="col">Hostname</th>
+            <th scope="col">Status</th>
+            <th scope="col">OS</th>
+            <th scope="col">Open Ports</th>
+            <th scope="col">Services</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody id="devices-tbody"></tbody>
+      </table>
+    </div>
+    <p id="devices-empty" class="empty-text" hidden>No devices discovered yet.</p>
+  </section>
+
+  <section class="history-section" aria-labelledby="history-heading">
+    <h2 id="history-heading">Scan History</h2>
+    <p id="history-error" class="error-text" role="alert" hidden></p>
+    <ul id="history-list" class="history-list" aria-live="polite"></ul>
+    <p id="history-empty" class="empty-text" hidden>No scan history yet.</p>
+  </section>
+
+</main>
+
+<div id="device-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="device-modal-title">
+  <div class="modal-content">
+    <button id="device-modal-close" type="button" class="btn" aria-label="Close device details">Close</button>
+    <h2 id="device-modal-title">Device Details</h2>
+    <dl id="device-modal-body"></dl>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var REFRESH_INTERVAL_MS = 5000;
+  var JOB_POLL_INTERVAL_MS = 1500;
+  var JOB_POLL_MAX_ATTEMPTS = 60;
+
+  var refreshTimer = null;
+  var jobPollTimer = null;
+  var jobPollAttempts = 0;
+  var scanRequestInFlight = false;
+  var monitoringRequestInFlight = false;
+
+  var el = {
+    headerBadge: document.getElementById("header-monitoring-badge"),
+    headerInterface: document.getElementById("header-interface"),
+    summaryDevices: document.getElementById("summary-devices"),
+    summaryAlerts: document.getElementById("summary-alerts"),
+    summaryHistory: document.getElementById("summary-history"),
+    summaryScanProgress: document.getElementById("summary-scan-progress"),
+    monitoringStatusText: document.getElementById("monitoring-status-text"),
+    monitoringError: document.getElementById("monitoring-error"),
+    btnStartMonitoring: document.getElementById("btn-start-monitoring"),
+    btnStopMonitoring: document.getElementById("btn-stop-monitoring"),
+    alertsList: document.getElementById("alerts-list"),
+    alertsEmpty: document.getElementById("alerts-empty"),
+    alertsError: document.getElementById("alerts-error"),
+    btnScanNetwork: document.getElementById("btn-scan-network"),
+    scanStatusText: document.getElementById("scan-status-text"),
+    scanError: document.getElementById("scan-error"),
+    devicesTbody: document.getElementById("devices-tbody"),
+    devicesEmpty: document.getElementById("devices-empty"),
+    devicesError: document.getElementById("devices-error"),
+    historyList: document.getElementById("history-list"),
+    historyEmpty: document.getElementById("history-empty"),
+    historyError: document.getElementById("history-error"),
+    deviceModal: document.getElementById("device-modal"),
+    deviceModalBody: document.getElementById("device-modal-body"),
+    deviceModalClose: document.getElementById("device-modal-close")
+  };
+
+  function showError(node, message) {
+    if (!node) return;
+    if (!message) {
+      node.hidden = true;
+      node.textContent = "";
+      return;
+    }
+    node.hidden = false;
+    node.textContent = message;
+  }
+
+  function displayValue(value) {
+    if (value === null || value === undefined) return "Unknown";
+    if (typeof value === "string" && value.trim() === "") return "Unknown";
+    return String(value);
+  }
+
+  function formatPorts(ports) {
+    if (!Array.isArray(ports) || ports.length === 0) return "Not detected";
+    return ports.join(", ");
+  }
+
+  function formatServices(services) {
+    if (!Array.isArray(services) || services.length === 0) return "Not detected";
+    return services
+      .map(function (svc) {
+        if (!svc || typeof svc !== "object") return "Unknown";
+        var label = displayValue(svc.port);
+        if (svc.protocol) label += "/" + svc.protocol;
+        if (svc.name) label += " " + svc.name;
+        if (svc.product) label += " (" + svc.product + ")";
+        return label;
+      })
+      .join(", ");
+  }
+
+  function formatOnline(online) {
+    if (online === true) return "Online";
+    if (online === false) return "Offline";
+    return "Unknown";
+  }
+
+  function formatTimestamp(ts) {
+    if (ts === null || ts === undefined) return "Unknown";
+    var date = new Date(ts * 1000);
+    if (isNaN(date.getTime())) return "Unknown";
+    return date.toLocaleString();
+  }
+
+  function formatSeverity(severity) {
+    if (!severity) return "unknown";
+    return String(severity).toLowerCase();
+  }
+
+  function apiRequest(path, options) {
+    return fetch(path, options).then(function (response) {
+      return response
+        .json()
+        .catch(function () {
+          return null;
+        })
+        .then(function (data) {
+          if (!response.ok) {
+            var message = data && data.error ? data.error : "Request failed (" + response.status + ")";
+            throw new Error(message);
+          }
+          return data;
+        });
+    });
+  }
+
+  function apiGet(path) {
+    return apiRequest(path, { method: "GET" });
+  }
+
+  function apiPostJson(path, body) {
+    return apiRequest(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {})
+    });
+  }
+
+  function setMonitoringBadge(state, label) {
+    el.headerBadge.textContent = "Monitoring: " + label;
+    el.headerBadge.className = "status-badge status-" + state;
+  }
+
+  function refreshStatus() {
+    return apiGet("/api/status")
+      .then(function (data) {
+        if (!data) return;
+        el.summaryDevices.textContent = displayValue(data.device_count);
+        el.summaryAlerts.textContent = displayValue(data.alert_count);
+        el.summaryHistory.textContent = displayValue(data.scan_history_count);
+        el.summaryScanProgress.textContent = data.scan_in_progress ? "Yes" : "No";
+        el.headerInterface.textContent = "Interface: " + displayValue(data.monitoring_interface);
+
+        if (monitoringRequestInFlight) {
+          return;
+        }
+
+        if (data.monitoring_running) {
+          setMonitoringBadge("active", "Active");
+          el.monitoringStatusText.textContent =
+            "Status: Active on " + displayValue(data.monitoring_interface) +
+            " since " + formatTimestamp(data.monitoring_started_at);
+          el.btnStartMonitoring.disabled = true;
+          el.btnStopMonitoring.disabled = false;
+        } else {
+          setMonitoringBadge("stopped", "Stopped");
+          el.monitoringStatusText.textContent = "Status: Stopped";
+          el.btnStartMonitoring.disabled = false;
+          el.btnStopMonitoring.disabled = true;
+        }
+      })
+      .catch(function (err) {
+        setMonitoringBadge("failed", "Unavailable");
+        showError(el.monitoringError, "Unable to reach backend status endpoint: " + err.message);
+      });
+  }
+
+  function renderDevices(devices) {
+    el.devicesTbody.innerHTML = "";
+    if (!Array.isArray(devices) || devices.length === 0) {
+      el.devicesEmpty.hidden = false;
+      return;
+    }
+    el.devicesEmpty.hidden = true;
+
+    devices.forEach(function (device) {
+      var row = document.createElement("tr");
+
+      var cells = [
+        displayValue(device.ip),
+        displayValue(device.mac),
+        displayValue(device.hostname),
+        formatOnline(device.online),
+        displayValue(device.os),
+        formatPorts(device.open_ports),
+        formatServices(device.services)
+      ];
+
+      cells.forEach(function (text) {
+        var td = document.createElement("td");
+        td.textContent = text;
+        row.appendChild(td);
+      });
+
+      if (device.online === true) {
+        row.classList.add("device-online");
+      } else if (device.online === false) {
+        row.classList.add("device-offline");
+      }
+
+      var detailsCell = document.createElement("td");
+      var detailsButton = document.createElement("button");
+      detailsButton.type = "button";
+      detailsButton.className = "btn btn-secondary";
+      detailsButton.textContent = "View";
+      detailsButton.addEventListener("click", function () {
+        openDeviceModal(device);
+      });
+      detailsCell.appendChild(detailsButton);
+      row.appendChild(detailsCell);
+
+      el.devicesTbody.appendChild(row);
+    });
+  }
+
+  function refreshDevices() {
+    return apiGet("/api/devices")
+      .then(function (data) {
+        showError(el.devicesError, null);
+        renderDevices(data ? data.devices : []);
+      })
+      .catch(function (err) {
+        showError(el.devicesError, "Unable to load devices: " + err.message);
+      });
+  }
+
+  function renderAlerts(alerts) {
+    el.alertsList.innerHTML = "";
+    if (!Array.isArray(alerts) || alerts.length === 0) {
+      el.alertsEmpty.hidden = false;
+      return;
+    }
+    el.alertsEmpty.hidden = true;
+
+    alerts.forEach(function (alert) {
+      var item = document.createElement("li");
+      var severity = formatSeverity(alert.severity);
+      item.className = "alert-item severity-" + severity;
+
+      var title = document.createElement("div");
+      title.className = "alert-title";
+      title.textContent = displayValue(alert.detection_type) + " (" + severity.toUpperCase() + ")";
+      item.appendChild(title);
+
+      var meta = document.createElement("dl");
+      meta.className = "alert-meta";
+
+      var fields = [
+        ["Timestamp", formatTimestamp(alert.timestamp)],
+        ["Source IP", displayValue(alert.source_ip)],
+        ["Source MAC", displayValue(alert.source_mac)],
+        ["Target IP", displayValue(alert.target_ip)],
+        ["Target Ports", formatPorts(alert.target_ports)],
+        ["Details", displayValue(alert.details)]
+      ];
+
+      fields.forEach(function (pair) {
+        var dt = document.createElement("dt");
+        dt.textContent = pair[0];
+        var dd = document.createElement("dd");
+        dd.textContent = pair[1];
+        meta.appendChild(dt);
+        meta.appendChild(dd);
+      });
+
+      item.appendChild(meta);
+      el.alertsList.appendChild(item);
+    });
+  }
+
+  function refreshAlerts() {
+    return apiGet("/api/alerts")
+      .then(function (data) {
+        showError(el.alertsError, null);
+        renderAlerts(data ? data.alerts : []);
+      })
+      .catch(function (err) {
+        showError(el.alertsError, "Unable to load alerts: " + err.message);
+      });
+  }
+
+  function renderHistory(history) {
+    el.historyList.innerHTML = "";
+    if (!Array.isArray(history) || history.length === 0) {
+      el.historyEmpty.hidden = false;
+      return;
+    }
+    el.historyEmpty.hidden = true;
+
+    history.forEach(function (entry) {
+      var item = document.createElement("li");
+      item.className = "history-item";
+
+      var title = document.createElement("div");
+      title.className = "history-title";
+      var typeLabel = entry.type === "discovery" ? "Network Discovery" : "Target Scan";
+      title.textContent = typeLabel + " - " + displayValue(entry.target);
+      item.appendChild(title);
+
+      var meta = document.createElement("dl");
+      meta.className = "history-meta";
+
+      var resultSummary;
+      if (entry.type === "discovery") {
+        resultSummary = displayValue(entry.device_count) + " device(s) found";
+      } else if (Array.isArray(entry.open_ports)) {
+        resultSummary = entry.open_ports.length + " open port(s)";
+      } else {
+        resultSummary = "Not detected";
+      }
+
+      var fields = [
+        ["Started", formatTimestamp(entry.started_at)],
+        ["Completed", formatTimestamp(entry.completed_at)],
+        ["Result", resultSummary]
+      ];
+
+      fields.forEach(function (pair) {
+        var dt = document.createElement("dt");
+        dt.textContent = pair[0];
+        var dd = document.createElement("dd");
+        dd.textContent = pair[1];
+        meta.appendChild(dt);
+        meta.appendChild(dd);
+      });
+
+      item.appendChild(meta);
+      el.historyList.appendChild(item);
+    });
+  }
+
+  function refreshHistory() {
+    return apiGet("/api/scan/history")
+      .then(function (data) {
+        showError(el.historyError, null);
+        renderHistory(data ? data.history : []);
+      })
+      .catch(function (err) {
+        showError(el.historyError, "Unable to load scan history: " + err.message);
+      });
+  }
+
+  function refreshAll() {
+    refreshStatus();
+    refreshDevices();
+    refreshAlerts();
+    refreshHistory();
+  }
+
+  function openDeviceModal(device) {
+    el.deviceModalBody.innerHTML = "";
+
+    var fields = [
+      ["IP", displayValue(device.ip)],
+      ["MAC", displayValue(device.mac)],
+      ["Hostname", displayValue(device.hostname)],
+      ["Status", formatOnline(device.online)],
+      ["OS", displayValue(device.os)],
+      ["Open Ports", formatPorts(device.open_ports)],
+      ["Services", formatServices(device.services)],
+      ["Last Seen", formatTimestamp(device.last_seen)]
+    ];
+
+    fields.forEach(function (pair) {
+      var dt = document.createElement("dt");
+      dt.textContent = pair[0];
+      var dd = document.createElement("dd");
+      dd.textContent = pair[1];
+      el.deviceModalBody.appendChild(dt);
+      el.deviceModalBody.appendChild(dd);
+    });
+
+    el.deviceModal.hidden = false;
+    el.deviceModalClose.focus();
+  }
+
+  function closeDeviceModal() {
+    el.deviceModal.hidden = true;
+  }
+
+  el.deviceModalClose.addEventListener("click", closeDeviceModal);
+  el.deviceModal.addEventListener("click", function (event) {
+    if (event.target === el.deviceModal) {
+      closeDeviceModal();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !el.deviceModal.hidden) {
+      closeDeviceModal();
+    }
+  });
+
+  function stopJobPolling() {
+    if (jobPollTimer) {
+      clearTimeout(jobPollTimer);
+      jobPollTimer = null;
+    }
+    jobPollAttempts = 0;
+  }
+
+  function pollScanJob(jobId) {
+    jobPollAttempts += 1;
+    apiGet("/api/scan/" + encodeURIComponent(jobId))
+      .then(function (job) {
+        if (!job) {
+          throw new Error("invalid scan job response");
+        }
+        if (job.status === "running") {
+          if (jobPollAttempts >= JOB_POLL_MAX_ATTEMPTS) {
+            stopJobPolling();
+            scanRequestInFlight = false;
+            el.btnScanNetwork.disabled = false;
+            el.scanStatusText.textContent = "Scan is taking longer than expected. It may still complete in the background.";
+            return;
+          }
+          jobPollTimer = setTimeout(function () {
+            pollScanJob(jobId);
+          }, JOB_POLL_INTERVAL_MS);
+          return;
+        }
+
+        stopJobPolling();
+        scanRequestInFlight = false;
+        el.btnScanNetwork.disabled = false;
+
+        if (job.status === "completed") {
+          var results = job.results;
+          var count = Array.isArray(results) ? results.length : (results ? 1 : 0);
+          el.scanStatusText.textContent = "Scan completed: " + count + " device(s) found.";
+        } else {
+          showError(el.scanError, "Scan failed: " + displayValue(job.error));
+          el.scanStatusText.textContent = "";
+        }
+
+        refreshDevices();
+        refreshHistory();
+        refreshStatus();
+      })
+      .catch(function (err) {
+        stopJobPolling();
+        scanRequestInFlight = false;
+        el.btnScanNetwork.disabled = false;
+        showError(el.scanError, "Unable to check scan status: " + err.message);
+        refreshStatus();
+      });
+  }
+
+  function startScan() {
+    if (scanRequestInFlight) return;
+    scanRequestInFlight = true;
+    el.btnScanNetwork.disabled = true;
+    showError(el.scanError, null);
+    el.scanStatusText.textContent = "Starting network scan...";
+
+    apiPostJson("/api/scan", {})
+      .then(function (data) {
+        if (!data || !data.job_id) {
+          throw new Error("scan did not return a job id");
+        }
+        el.scanStatusText.textContent = "Scan running...";
+        jobPollAttempts = 0;
+        pollScanJob(data.job_id);
+      })
+      .catch(function (err) {
+        scanRequestInFlight = false;
+        el.btnScanNetwork.disabled = false;
+        el.scanStatusText.textContent = "";
+        showError(el.scanError, "Unable to start scan: " + err.message);
+      });
+  }
+
+  el.btnScanNetwork.addEventListener("click", startScan);
+
+  function startMonitoring() {
+    if (monitoringRequestInFlight) return;
+    monitoringRequestInFlight = true;
+    el.btnStartMonitoring.disabled = true;
+    el.btnStopMonitoring.disabled = true;
+    showError(el.monitoringError, null);
+    setMonitoringBadge("starting", "Starting");
+    el.monitoringStatusText.textContent = "Status: Starting...";
+
+    apiPostJson("/api/monitoring/start", {})
+      .then(function () {
+        monitoringRequestInFlight = false;
+        refreshStatus();
+      })
+      .catch(function (err) {
+        monitoringRequestInFlight = false;
+        setMonitoringBadge("failed", "Failed");
+        el.monitoringStatusText.textContent = "Status: Failed to start";
+        showError(el.monitoringError, "Unable to start monitoring: " + err.message);
+        refreshStatus();
+      });
+  }
+
+  function stopMonitoring() {
+    if (monitoringRequestInFlight) return;
+    monitoringRequestInFlight = true;
+    el.btnStartMonitoring.disabled = true;
+    el.btnStopMonitoring.disabled = true;
+    showError(el.monitoringError, null);
+    el.monitoringStatusText.textContent = "Status: Stopping...";
+
+    apiPostJson("/api/monitoring/stop", {})
+      .then(function () {
+        monitoringRequestInFlight = false;
+        refreshStatus();
+      })
+      .catch(function (err) {
+        monitoringRequestInFlight = false;
+        showError(el.monitoringError, "Unable to stop monitoring: " + err.message);
+        refreshStatus();
+      });
+  }
+
+  el.btnStartMonitoring.addEventListener("click", startMonitoring);
+  el.btnStopMonitoring.addEventListener("click", stopMonitoring);
+
+  function startPolling() {
+    if (refreshTimer) return;
+    refreshTimer = setInterval(refreshAll, REFRESH_INTERVAL_MS);
+  }
+
+  function stopPolling() {
+    if (refreshTimer) {
+      clearInterval(refreshTimer);
+      refreshTimer = null;
+    }
+  }
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      stopPolling();
+    } else {
+      refreshAll();
+      startPolling();
+    }
+  });
+
+  refreshAll();
+  startPolling();
+})();
+</script>
+</body>
+</html>
