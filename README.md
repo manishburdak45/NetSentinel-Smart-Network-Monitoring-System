@@ -219,7 +219,7 @@ NetSentinel-XDR is Linux-first. Several parts of `scanner.py` shell out to Linux
 ### Step 1 — Clone the repository
 
 ```bash
-git https://github.com/manishburdak45/NetSentinel-Smart-Network-Monitoring-System/tree/main
+git clone https://github.com/manishburdak45/NetSentinel-Smart-Network-Monitoring-System/tree/main
 cd NetSentinel-XDR
 ```
 
@@ -340,21 +340,7 @@ The following are potential directions beyond the current implementation, not ex
 - Additional detection types (e.g., UDP scans, ICMP sweep detection, ARP spoofing detection)
 - Multi-interface / multi-segment monitoring support
 
----
 
-## Team
-
-| # | Name | Enrollment Number |
-|---|---|---|
-| 1 | Manish Burdak | 25BCY102222 |
-| 2 | Lokendra Katariya | 25BCY102233 |
-| 3 | Himanshu Singh | 25BCY102594 |
-| 4 | Ravi Kumar | 25BCY102535 |
-| 5 | Shaik Allabakash | 25BCY10245 |
-
-Supervisor: __________
-
----
 
 <div align="center">
 <sub>NetSentinel-XDR — a lightweight Linux network monitoring and detection project.</sub>
