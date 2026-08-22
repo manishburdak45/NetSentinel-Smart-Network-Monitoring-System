@@ -219,7 +219,7 @@ NetSentinel-XDR is Linux-first. Several parts of `scanner.py` shell out to Linux
 ### Step 1 — Clone the repository
 
 ```bash
-git clone <repository-url>
+git https://github.com/manishburdak45/NetSentinel-Smart-Network-Monitoring-System/tree/main
 cd NetSentinel-XDR
 ```
 
