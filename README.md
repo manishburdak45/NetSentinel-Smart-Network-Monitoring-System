@@ -123,6 +123,7 @@ flowchart TD
     N --> O[Flask REST API]
     O --> P[Web Dashboard]
 ```
+<img width="1260" height="606" alt="image" src="https://github.com/user-attachments/assets/1daeb748-b9d5-4ace-a930-3d9ac115e332" />
 
 **Discovery / scanning path:** the backend reads the active interface and subnet, sends ARP requests across the subnet with Scapy, then attempts an Nmap scan (ports, service versions, best-effort OS match) on each responding host. If Nmap is not installed, or its result for a host is unusable, the code falls back to a plain TCP `connect()` sweep over a fixed port list plus an ICMP ping for reachability.
 
@@ -165,6 +166,7 @@ NetSentinel-XDR/
 - Renders summary cards, the monitoring control panel, the alerts list, the devices table, and scan history
 - Handles starting a network scan and polling the resulting job until completion
 - Includes a device details modal populated from the same device data used in the table
+<img width="741" height="770" alt="image" src="https://github.com/user-attachments/assets/91d8a6f6-2901-4824-87b2-54b3db871d3e" />
 
 ### style.css
 - Dark, monospace-accented visual theme for the dashboard
@@ -268,6 +270,7 @@ By default, the Flask development server listens on all interfaces at port 5000:
 ```
 http://<your-server-ip>:5000
 ```
+<img width="1237" height="201" alt="image" src="https://github.com/user-attachments/assets/777aa5d3-989e-4b43-8a67-180f79833f02" />
 
 Open this address in a browser to load the dashboard. From there you can:
 
@@ -327,6 +330,7 @@ NetSentinel-XDR is a lightweight, single-host educational project. It does **not
 It is best understood as a learning project that demonstrates how basic network discovery, port/service scanning, and simple statistical intrusion-style detection can be implemented and visualized end-to-end in Python.
 
 ---
+<img width="768" height="776" alt="image" src="https://github.com/user-attachments/assets/5073f8b9-8772-4146-bbf1-47560ec8d06e" />
 
 ## Possible Future Improvements
 
