@@ -349,3 +349,36 @@ The following are potential directions beyond the current implementation, not ex
 <div align="center">
 <sub>NetSentinel-XDR — a lightweight Linux network monitoring and detection project.</sub>
 </div>
+
+
+## 🛡️ Response / Blocking Module
+
+> Added after the initial release — extends the project from **detection-only** to **detection + response**.
+
+### Overview
+When the monitoring engine flags a suspicious source, it can now be **blocked at the firewall level** directly from the dashboard, instead of just being logged as an alert.
+
+### How It Works
+- Implemented in **`response_manager.py`**, using Linux **`iptables`**.
+- Supports blocking by **source IP** or **MAC address**.
+- Before blocking, resolves the MAC address (via ARP cache, triggering a ping if needed).
+- Applies a `DROP` rule (`iptables -I INPUT ... -j DROP`) for the chosen duration.
+- **Verifies** the rule was actually applied (`iptables -C`) instead of assuming success.
+- Rules can be **removed automatically** after the block duration expires, or manually via the dashboard.
+
+### Safety Checks
+- **Protected addresses** (the monitoring host itself and the network gateway) can **never be blocked**, even by mistake — prevents self-lockout.
+- Duplicate block requests are checked against current state before re-applying a rule.
+
+### API Endpoints
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/api/response/block` | Block a source IP/MAC for a given duration |
+| `POST` | `/api/response/unblock` | Manually remove a block |
+| `GET`  | `/api/response/status` | Check current block status of a source |
+
+### Performance Fix
+Initially, firewall verification ran **inside the packet-capture path**, which slowed down live monitoring on busy networks. This was fixed by moving alert/response handling to a **background worker/queue**, keeping packet capture responsive while blocking still gets verified.
+
+### Known Limitation
+- Dashboard-side integration for one-click blocking from the **Suspicious Sources** table is still under final testing — the blocking mechanism itself (backend) is fully functional and independently testable via the API.
