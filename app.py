@@ -8,6 +8,7 @@ from collections import deque
 from flask import Flask, jsonify, request, send_from_directory
 
 import scanner
+import network_enumeration
 from response_manager import (
     validate_ip,
     validate_mac,
@@ -796,6 +797,7 @@ def api_monitoring_start():
         try:
             interface, network_cidr = scanner.get_local_network_info()
             monitor = scanner.NetworkMonitor(interface, handle_new_alert)
+            network_enumeration.attach_network_enumeration_detection(monitor)
             monitor.start()
         except Exception:
             logger.exception("Failed to start monitoring")
